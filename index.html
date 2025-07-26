@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo - Homade</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="/assets/logo.png">
+    <script src="script.js"></script>
+    <script src="/assets/supabaseClient.js"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="header-content">
+                <a href="../../index.html" class="header-brand">
+                    <img src="/assets/logo.png" alt="Homade" class="header-logo">
+                    <h1 class="header-title">Dashboard Administrativo</h1>
+                </a>
+                <div class="header-actions">
+                    <span class="user-info" id="userInfo">Carregando...</span>
+                    <button class="btn btn-secondary" onclick="logout()">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Estatísticas -->
+            <section class="dashboard-stats">
+                <div class="stat-card animate-fade-in-up">
+                    <div class="stat-number" id="totalIndicacoes">0</div>
+                    <div class="stat-label">Total de Indicações</div>
+                </div>
+                <div class="stat-card animate-fade-in-up">
+                    <div class="stat-number" id="indicacoesRecebidas">0</div>
+                    <div class="stat-label">Recebidas</div>
+                </div>
+                <div class="stat-card animate-fade-in-up">
+                    <div class="stat-number" id="indicacoesAndamento">0</div>
+                    <div class="stat-label">Em Andamento</div>
+                </div>
+                <div class="stat-card animate-fade-in-up">
+                    <div class="stat-number" id="indicacoesConcluidas">0</div>
+                    <div class="stat-label">Concluídas</div>
+                </div>
+            </section>
+
+            <!-- Tabela de Indicações -->
+            <section class="dashboard-content">
+                <div class="indications-table animate-fade-in-up">
+                    <div class="table-header">
+                        <h2 class="table-title">Indicações Recentes</h2>
+                        <button class="btn btn-primary" onclick="refreshData()">
+                            <span>🔄</span> Atualizar
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Indicador</th>
+                                    <th>Cliente</th>
+                                    <th>Valor</th>
+                                    <th>Status</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="indicationsTableBody">
+                                <!-- Dados serão carregados via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal de Detalhes -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Detalhes da Indicação</h3>
+                <button class="modal-close" onclick="closeModal('detailsModal')">&times;</button>
+            </div>
+            <div class="modal-body" id="detailsModalBody">
+                <!-- Conteúdo será carregado via JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('detailsModal')">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Edição -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Indicação</h3>
+                <button class="modal-close" onclick="closeModal('editModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <div class="form-group">
+                        <label class="form-label">Nome do Indicador</label>
+                        <input type="text" class="form-control" id="editIndicadorNome" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">E-mail do Indicador</label>
+                        <input type="email" class="form-control" id="editIndicadorEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nome do Cliente</label>
+                        <input type="text" class="form-control" id="editClienteNome" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">E-mail do Cliente</label>
+                        <input type="email" class="form-control" id="editClienteEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Valor do Projeto</label>
+                        <input type="text" class="form-control" id="editValorProjeto" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-control" id="editStatus" required>
+                            <option value="recebido">Recebido</option>
+                            <option value="contato">Primeiro Contato</option>
+                            <option value="curadoria">Curadoria</option>
+                            <option value="negociacao">Negociação</option>
+                            <option value="pagamento">Pagamento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Observações</label>
+                        <textarea class="form-control" id="editObservacoes" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('editModal')">Cancelar</button>
+                <button class="btn btn-success" onclick="saveEdit()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Avançar Etapa -->
+    <div id="advanceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Avançar Etapa</h3>
+                <button class="modal-close" onclick="closeModal('advanceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="indication-info" id="advanceIndicationInfo">
+                    <!-- Informações da indicação -->
+                </div>
+                
+                <form id="advanceForm">
+                    <div class="form-group">
+                        <label class="form-label">Etapa Atual</label>
+                        <input type="text" class="form-control" id="currentStage" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Próxima Etapa</label>
+                        <select class="form-control" id="nextStage" required>
+                            <option value="">Selecione a próxima etapa</option>
+                            <option value="contato">Primeiro Contato</option>
+                            <option value="curadoria">Curadoria</option>
+                            <option value="negociacao">Negociação</option>
+                            <option value="pagamento">Pagamento</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observações sobre o progresso</label>
+                        <textarea class="form-control" id="progressNotes" rows="4" placeholder="Adicione observações sobre o progresso desta etapa..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('advanceModal')">Cancelar</button>
+                <button class="btn btn-success" onclick="advanceStage()">Avançar Etapa</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>Carregando...</p>
+    </div>
+
+    <script src="../../js/dashboard-admin.js"></script>
+</body>
+</html>
+

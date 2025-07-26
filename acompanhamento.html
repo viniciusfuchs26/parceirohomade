@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Acompanhamento - Homade</title>
+    <link rel="stylesheet" href="acompanhamento.css">
+    <link rel="icon" type="image/png" href="/assets/logo.png">
+</head>
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-header">
+            <img src="/assets/logo.png" alt="Homade Logo" class="login-logo">
+            <h1>Acompanhar Indicação</h1>
+            <p>Digite seus dados para acompanhar o status da sua indicação</p>
+        </div>
+
+        <form class="login-form" id="trackingLoginForm">
+            <div class="form-group">
+                <label for="email">E-mail do Indicador</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
+            </div>
+
+            <div class="form-group">
+                <label for="codigo">Código da Indicação</label>
+                <input type="text" id="codigo" name="codigo" placeholder="Ex: HMD-2025-0001" required>
+            </div>
+
+            <button type="submit" class="login-btn">
+                <span class="btn-text">Acessar Acompanhamento</span>
+                <span class="btn-loading hidden">Verificando...</span>
+            </button>
+        </form>
+
+        <div class="login-links">
+            <a href="./admin.html">Área Administrativa</a> |
+            <a href="../../index.html">Voltar ao Site</a>
+        </div>
+    </div>
+
+    <script src="acompanhamento.js"></script>
+    <script src="/assets/supabaseClient.js"></script>
+</body>
+</html>
+

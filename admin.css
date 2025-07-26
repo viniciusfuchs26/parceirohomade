@@ -1,0 +1,337 @@
+/* ========================================
+   LOGIN ADMINISTRATIVO - ESTILOS ESPECÍFICOS
+   ======================================== */
+
+/* Importando fontes */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #8B4513;
+    --secondary-color: #D2691E;
+    --accent-color: #CD853F;
+    --bg-primary: #0f0f0f;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-muted: #a0a0a0;
+    --border-primary: rgba(139, 69, 19, 0.3);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.2);
+    --transition-normal: 0.3s ease;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+/* Efeito de partículas no fundo */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(139, 69, 19, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(210, 105, 30, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(205, 133, 63, 0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: var(--spacing-lg);
+}
+
+.login-container {
+    background: rgba(30, 30, 30, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-primary);
+    padding: 50px 40px;
+    border-radius: var(--radius-xl);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(139, 69, 19, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    text-align: center;
+    max-width: 450px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(139, 69, 19, 0.1), transparent);
+    transition: left 0.8s;
+}
+
+.login-container:hover::before {
+    left: 100%;
+}
+
+.login-logo {
+    height: 70px;
+    margin-bottom: 30px;
+    filter: brightness(0) invert(1);
+    transition: all var(--transition-normal);
+    position: relative;
+    z-index: 2;
+}
+
+.login-logo:hover {
+    transform: scale(1.05);
+    filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(139, 69, 19, 0.5));
+}
+
+.login-header h1 {
+    font-family: 'Playfair Display', serif;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+    font-weight: 600;
+    position: relative;
+    z-index: 2;
+}
+
+.login-header p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 40px;
+    font-size: 1rem;
+    font-weight: 400;
+    position: relative;
+    z-index: 2;
+}
+
+.login-form .form-group {
+    margin-bottom: 25px;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid var(--border-primary);
+    border-radius: 12px;
+    font-size: 1rem;
+    background: rgba(40, 40, 40, 0.8);
+    color: var(--text-primary);
+    transition: all var(--transition-normal);
+    font-family: 'Inter', sans-serif;
+}
+
+.login-form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: rgba(50, 50, 50, 0.9);
+    box-shadow: 
+        0 0 0 3px rgba(139, 69, 19, 0.2),
+        0 4px 12px rgba(139, 69, 19, 0.1);
+    transform: translateY(-2px);
+}
+
+.password-input {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color var(--transition-normal);
+}
+
+.toggle-password:hover {
+    color: var(--text-primary);
+}
+
+.login-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    width: 100%;
+    box-shadow: 
+        0 8px 20px rgba(139, 69, 19, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.login-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.login-btn:hover::before {
+    left: 100%;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+        0 12px 30px rgba(139, 69, 19, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.login-btn:active {
+    transform: translateY(0);
+}
+
+.login-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-loading {
+    display: none;
+}
+
+.login-btn.loading .btn-text {
+    display: none;
+}
+
+.login-btn.loading .btn-loading {
+    display: inline;
+}
+
+.login-links {
+    margin-top: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.login-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color var(--transition-normal);
+}
+
+.login-links a:hover {
+    color: var(--secondary-color);
+}
+
+.error-message {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    color: #ff6b6b;
+    padding: var(--spacing-md);
+    border-radius: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.9rem;
+    display: none;
+}
+
+.success-message {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    color: #51cf66;
+    padding: var(--spacing-md);
+    border-radius: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.9rem;
+    display: none;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .login-container {
+        padding: var(--spacing-xl) var(--spacing-lg);
+        margin: var(--spacing-md);
+    }
+    
+    .login-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .login-form input {
+        padding: 12px 16px;
+    }
+    
+    .login-btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+}
+
